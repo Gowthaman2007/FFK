@@ -2,13 +2,161 @@
 @tailwind components;
 @tailwind utilities;
 
-html { background: #0a0a0f; }
+:root {
+  --ffk-bg: #07080c;
+  --ffk-panel: rgba(15, 17, 24, 0.78);
+  --ffk-panel-strong: rgba(20, 22, 31, 0.92);
+  --ffk-line: rgba(255,255,255,0.085);
+  --ffk-red: #ff3b30;
+  --ffk-orange: #ff9f0a;
+  --ffk-gold: #ffd166;
+  --ffk-text: #f7f7fa;
+  --ffk-muted: rgba(247,247,250,0.58);
+}
+
+html {
+  background: var(--ffk-bg);
+  scroll-behavior: smooth;
+}
+
 body {
-  background: #0a0a0f;
-  color: #f2f2f5;
+  background:
+    radial-gradient(900px 500px at 8% -8%, rgba(255, 59, 48, 0.15), transparent 58%),
+    radial-gradient(800px 500px at 92% 5%, rgba(255, 159, 10, 0.10), transparent 58%),
+    linear-gradient(180deg, #08090d 0%, #07080c 52%, #050609 100%);
+  color: var(--ffk-text);
+  min-height: 100vh;
+  font-family: Inter, system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Subtle esports atmosphere without heavy assets. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: .28;
   background-image:
-    radial-gradient(circle at 20% 0%, rgba(255,59,59,0.08), transparent 40%),
-    radial-gradient(circle at 80% 20%, rgba(255,184,0,0.06), transparent 40%);
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(to bottom, black, transparent 75%);
+}
+
+::selection {
+  background: rgba(255, 59, 48, .28);
+  color: #fff;
+}
+
+a, button, input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  transition: color .2s ease, background-color .2s ease, border-color .2s ease,
+              transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+
+button {
+  transition: color .2s ease, background-color .2s ease, border-color .2s ease,
+              transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+
+button:hover:not(:disabled),
+a:hover {
+  transform: translateY(-1px);
+}
+
+button:active:not(:disabled),
+a:active {
+  transform: translateY(0);
+}
+
+.glass {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.012)),
+    var(--ffk-panel);
+  border: 1px solid var(--ffk-line);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.035);
+}
+
+.glass:hover {
+  border-color: rgba(255,255,255,.13);
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, #ff3b30 0%, #ff6b35 48%, #ffd166 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.font-display {
+  letter-spacing: .015em;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+thead th {
+  letter-spacing: .12em;
+}
+
+tbody tr {
+  transition: background-color .22s ease, box-shadow .22s ease;
+}
+
+tbody tr:hover {
+  background: rgba(255,255,255,.045);
+}
+
+input, select, textarea {
+  background: rgba(255,255,255,.035);
+  border-color: var(--ffk-line);
+  color: var(--ffk-text);
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: rgba(255, 59, 48, .55);
+  box-shadow: 0 0 0 3px rgba(255,59,48,.10);
+  background: rgba(255,255,255,.05);
+}
+
+::placeholder {
+  color: rgba(247,247,250,.32);
+}
+
+@keyframes ffkGlow {
+  0%, 100% { box-shadow: 0 0 0 rgba(255,59,48,0); }
+  50% { box-shadow: 0 0 26px rgba(255,59,48,.12); }
+}
+
+@keyframes ffkRise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ffk-animate-in {
+  animation: ffkRise .45s ease both;
+}
+
+.ffk-live-glow {
+  animation: ffkGlow 2.2s ease-in-out infinite;
+}
+
+@media (max-width: 640px) {
+  body::before { background-size: 32px 32px; }
+  .glass { backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -18,17 +166,4 @@ body {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-.glass {
-  background: rgba(18,18,26,0.7);
-  border: 1px solid rgba(255,255,255,0.06);
-  backdrop-filter: blur(10px);
-}
-
-.text-gradient {
-  background: linear-gradient(90deg,#ff3b3b,#ffb800);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
